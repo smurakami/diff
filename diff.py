@@ -1,4 +1,6 @@
 # coding: utf-8
+import sys
+
 class Diff:
   def __init__(self, a, b):
     self.a = a
@@ -25,7 +27,7 @@ class Diff:
     self.path = []
 
     self.search((0, 0)) # 左上から探索
-    print self.max_path
+    # print self.max_path
 
   def search(self, pos):
     def isReachable(pos, match):
@@ -66,7 +68,7 @@ class Diff:
     while p[1] < len(self.table[0]):
       p = (p[0], p[1] + 1)
       self.path.append(p)
-    print self.path
+    # print self.path
 
   def genResult(self):
     prev = (0, 0)
@@ -86,19 +88,32 @@ class Diff:
         i_a += 1
         i_b += 1
       prev = pos
-      print self.result
+      # print self.result
 
   def printResult(self):
-    for c, sign in self.result:
-      print sign, c
+    for line, sign in self.result:
+      print sign, line,
 
 def diff(filename_a, filename_b):
-  a = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
-  b = ['a', 'b', 'x', 'c', 'y', 'e', 'g']
+  a = []
+  with open(filename_a) as f:
+    for line in f:
+      a.append(line)
+
+  b = []
+  with open(filename_b) as f:
+    for line in f:
+      b.append(line)
+
+  # a = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+  # b = ['a', 'b', 'x', 'c', 'y', 'e', 'g']
   solver = Diff(a, b)
   result = solver.solve()
   solver.printResult()
 
 if __name__ == "__main__":
-  diff(None, None)
+  if len(sys.argv) != 3:
+    print "Usage: python %s fileA fileB" % sys.argv[0]
+    quit()
+  diff(sys.argv[1], sys.argv[2])
 

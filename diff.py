@@ -26,14 +26,14 @@ class Diff:
     self.max_path = []
     self.path = []
 
-    self.search((0, 0)) # 左上から探索
+    self.search((-1, -1)) # 左上から探索
     # print self.max_path
 
   def search(self, pos):
     def isReachable(pos, match):
       return match[0] > pos[0] and match[1] > pos[1]
 
-    self.path.append(pos)
+    if pos != (-1, -1): self.path.append(pos)
     is_term = True
     for match in self.matches:
       if isReachable(pos, match):
@@ -44,7 +44,7 @@ class Diff:
     if is_term: # 終端の場合
       if len(self.path) > len(self.max_path):
         self.max_path = list(self.path) # 最良経路の更新
-    self.path.pop()
+    if pos != (-1, -1): self.path.pop()
 
   def connectPath(self):
     # self.path = [(0, 0)]

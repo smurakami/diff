@@ -45,10 +45,11 @@ class Diff:
     self.path.pop()
 
   def connectPath(self):
-    self.path = [(0, 0)]
+    # self.path = [(0, 0)]
+    self.path = []
     prev = (0, 0)
     for pos in self.max_path:
-      if pos == (0, 0): continue
+      # if pos == (0, 0): continue
       p = prev
       while p[0] < pos[0]:
         p = (p[0] + 1, p[1])
